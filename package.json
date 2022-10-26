@@ -1,17 +1,20 @@
 {
-  "name": "finnish-ssn",
-  "version": "2.0.4",
+  "name": "finnish-pic",
+  "version": "1.0.0",
   "license": "MIT",
-  "description": "Small utility for validating and creating Finnish social security numbers. No more, no less, no dependencies.",
+  "description": "Small utility for validating and creating Finnish personal identity codes. No more, no less, no dependencies.",
   "author": "Ville Komulainen",
   "contributors": [
-    "Mika Viljanen https://github.com/mjviljan"
+    "Mika Viljanen https://github.com/mjviljan",
+    "Sampo Reponen https://github.com/reponen"
   ],
-  "main": "dist/finnish-ssn.js",
-  "types": "dist/finnish-ssn.d.ts",
+  "main": "dist/finnish-pic.js",
+  "types": "dist/finnish-pic.d.ts",
   "keywords": [
     "Finnish",
     "SSN",
+    "PIC",
+    "Personal Identity Code",
     "Social Security Number",
     "Validation",
     "Hetu",
@@ -20,12 +23,13 @@
     "Sosiaaliturvatunnus"
   ],
   "scripts": {
-    "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-ssn.js --output dist/finnish-ssn.min.js ",
-    "test": "mocha -r ts-node/register test/finnish-ssn_test.ts",
-    "test:watch": "mocha -r ts-node/register --watch test/finnish-ssn_test.ts",
+    "dist": "tsc && node-minify --compressor babel-minify --input dist/finnish-pic.js --output dist/finnish-pic.min.js ",
+    "test": "mocha -r ts-node/register test/finnish-pic_test.ts",
+    "test:watch": "mocha -r ts-node/register --watch test/finnish-pic_test.ts",
     "travis-lint": "./node_modules/.bin/travis-lint .travis.yml",
     "lint": "tslint src/*.ts test/*.ts",
-    "prepublish": "npm run test && npm run dist"
+    "prepublish": "npm run test && npm run dist",
+    "validate": "npm ls"
   },
   "devDependencies": {
     "@node-minify/babel-minify": "^4.0.5",
@@ -47,10 +51,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vkomulai/finnish-ssn"
+    "url": "https://github.com/reponen/finnish-pic"
   },
   "bugs": {
-    "url": "https://github.com/vkomulai/finnish-ssn/issues"
+    "url": "https://github.com/reponen/finnish-pic/issues"
   },
   "pre-commit": [
     "test",

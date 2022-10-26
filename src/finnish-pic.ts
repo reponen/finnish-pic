@@ -1,46 +1,47 @@
 'use strict'
 /**
- * Project: finnish-ssn
- * Purpose: Validate and generate Finnish SSN's according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
+ * Project: finnish-pic
+ * Purpose: Validate and generate Finnish PICs according to https://fi.wikipedia.org/wiki/Henkil%C3%B6tunnus
+ * Author:  Sampo Reponen
  * Author:  Ville Komulainen
  */
 
-interface SSN {
+interface PIC {
   valid: boolean
   sex: string
   ageInYears: number
   dateOfBirth: Date
 }
 
-export class FinnishSSN {
+export class FinnishPic {
   public static FEMALE = 'female'
   public static MALE = 'male'
 
   /**
-   * Parse parameter given SSN string into Object representation.
-   * @param ssn - {String} SSN to parse
+   * Parse a given PIC string into Object representation.
+   * @param pic - {String} PIC to parse
    */
-  public static parse(ssn: string): SSN {
+  public static parse(pic: string): PIC {
     //  Sanity and format check, which allows to make safe assumptions on the format.
-    if (!SSN_REGEX.test(ssn)) {
-      throw new Error('Not valid SSN format')
+    if (!PIC_REGEX.test(pic)) {
+      throw new Error('Not valid PIC format')
     }
 
-    const dayOfMonth = parseInt(ssn.substring(0, 2), 10)
-    const month = ssn.substring(2, 4)
-    const centuryId = ssn.charAt(6)
+    const dayOfMonth = parseInt(pic.substring(0, 2), 10)
+    const month = pic.substring(2, 4)
+    const centuryId = pic.charAt(6)
     // tslint:disable-next-line:no-non-null-assertion
-    const year = parseInt(ssn.substring(4, 6), 10) + centuryMap.get(centuryId)!
-    const rollingId = ssn.substring(7, 10)
-    const checksum = ssn.substring(10, 11)
+    const year = parseInt(pic.substring(4, 6), 10) + centuryMap.get(centuryId)!
+    const rollingId = pic.substring(7, 10)
+    const checksum = pic.substring(10, 11)
     const sex = parseInt(rollingId, 10) % 2 ? this.MALE : this.FEMALE
     const daysInMonth = daysInGivenMonth(year, month)
 
     if (!daysInMonthMap.get(month) || dayOfMonth > daysInMonth) {
-      throw new Error('Not valid SSN')
+      throw new Error('Not valid PIC')
     }
 
-    const checksumBase = parseInt(ssn.substring(0, 6) + rollingId, 10)
+    const checksumBase = parseInt(pic.substring(0, 6) + rollingId, 10)
     const dateOfBirth = new Date(year, parseInt(month, 10) - 1, dayOfMonth, 0, 0, 0, 0)
     const today = new Date()
 
@@ -53,20 +54,20 @@ export class FinnishSSN {
   }
 
   /**
-   * Validates parameter given SSN. Returns true if SSN is valid, otherwise false.
-   * @param ssn - {String} For example '010190-123A'
+   * Validates a given PIC. Returns true if PIC is valid, otherwise false.
+   * @param pic - {String} For example '010190-123A'
    */
-  public static validate(ssn: string): boolean {
+  public static validate(pic: string): boolean {
     try {
-      return this.parse(ssn).valid
+      return this.parse(pic).valid
     } catch (error) {
       return false
     }
   }
 
   /**
-   * Creates a valid SSN using the given age (Integer). Creates randomly male and female SSN'n.
-   * In case an invalid age is given, throws exception.
+   * Creates a valid PIC using the given age (Integer). Creates randomly male and female PICs.
+   * In case an invalid age is given, throws an exception.
    *
    * @param age as Integer. Min valid age is 1, max valid age is 200
    */
@@ -129,7 +130,7 @@ const checksumTable: string[] = '0123456789ABCDEFHJKLMNPRSTUVWXY'.split('')
 
 const MIN_AGE = 1
 const MAX_AGE = 200
-const SSN_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/
+const PIC_REGEX = /^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])([5-9]\d\+|\d\d-|[012]\dA)\d{3}[\dA-Z]$/
 
 function randomMonth(): string {
   return `00${randomNumber(12)}`.substr(-2, 2)
@@ -149,7 +150,7 @@ function daysInGivenMonth(year: number, month: string) {
   // tslint:disable-next-line:no-non-null-assertion
   const daysInMonth = daysInMonthMap.get(month)!
 
-  return month === february && FinnishSSN.isLeapYear(year) ? daysInMonth + 1 : daysInMonth
+  return month === february && FinnishPic.isLeapYear(year) ? daysInMonth + 1 : daysInMonth
 }
 
 function randomNumber(max: number): number {
