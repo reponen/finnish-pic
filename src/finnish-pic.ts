@@ -79,24 +79,18 @@ export class FinnishPic {
     let year = today.getFullYear() - age
     const month = randomMonth()
     const dayOfMonth = randomDay(year, month)
-    let centurySign
-    let checksumBase
-    let checksum
     const rollingId = randomNumber(800) + 99 //  No need for padding when rollingId >= 100
-
-    centuryMap.forEach((value: number, key: string) => {
-      if (value === Math.floor(year / 100) * 100) {
-        centurySign = key
-      }
-    })
+    const birthCentury = Math.floor(year / 100) * 100
+    const validCenturySigns = centuryIdMap.get(birthCentury) || '-'
+    const centurySign = validCenturySigns.charAt(Math.floor(Math.random() * validCenturySigns.length))
 
     if (!birthDayPassed(new Date(year, Number(month) - 1, Number(dayOfMonth)), today)) {
       year--
     }
     year = year % 100
     const yearString = yearToPaddedString(year)
-    checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
-    checksum = checksumTable[checksumBase % 31]
+    const checksumBase = parseInt(dayOfMonth + month + yearString + rollingId, 10)
+    const checksum = checksumTable[checksumBase % 31]
 
     return dayOfMonth + month + yearString + centurySign + rollingId + checksum
   }
@@ -120,6 +114,11 @@ centuryMap.set('W', 1900)
 centuryMap.set('V', 1900)
 centuryMap.set('U', 1900)
 centuryMap.set('+', 1800)
+
+const centuryIdMap: Map<number, string> = new Map()
+centuryIdMap.set(1800, '+')
+centuryIdMap.set(1900, 'YXWVU-')
+centuryIdMap.set(2000, 'ABCDEF')
 
 const february = '02'
 const daysInMonthMap: Map<string, number> = new Map()

@@ -229,13 +229,13 @@ describe('FinnishPIC', () => {
     it('Should generate a valid PIC with birth year in the 21st century', () => {
       MockDate.set('2/2/2015')
       const age = 3
-      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}1[12]A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}1[12][A-F][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should generate a valid PIC with birth year in the 20th century', () => {
       MockDate.set('2/2/2015')
       const age = 20
-      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}9[45]-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}9[45][YXWVU-][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should generate a valid PIC with birth year in the 19th century', () => {
@@ -247,19 +247,19 @@ describe('FinnishPIC', () => {
     it('Should generate a valid PIC with birth year 2000', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 2000
-      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}00A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}00[A-F][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should generate a valid PIC with birth year 1999', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 1999
-      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}99-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}99[YXWVU-][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should generate a valid PIC with birth year 1990', () => {
       MockDate.set('12/31/2015')
       const age = 25
-      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}90-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}90[YXWVU-][\\d]{3}[A-Z0-9]'))
     })
 
     it('Should generate random birth dates', () => {
