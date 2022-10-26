@@ -1,14 +1,14 @@
-# Finnish SSN validation and creation
+# Finnish PIC validation and generation
 
-[![Build Status](https://travis-ci.org/vkomulai/finnish-ssn.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-ssn) ![0 deps](https://david-dm.org/vkomulai/finnish-ssn.svg) ![Downloads](https://img.shields.io/npm/dt/finnish-ssn.svg) ![License](https://img.shields.io/npm/l/finnish-ssn.svg)
+[![Build Status](https://travis-ci.org/vkomulai/finnish-pic.svg?branch=master)](https://travis-ci.org/vkomulai/finnish-pic) ![0 deps](https://david-dm.org/vkomulai/finnish-pic.svg) ![Downloads](https://img.shields.io/npm/dt/finnish-pic.svg) ![License](https://img.shields.io/npm/l/finnish-pic.svg)
 
-- A micro Javascript library for validating and creating Finnish social security numbers
+- A micro Javascript library for validating and generating Finnish personal identity codes
 - Zero dependencies
 
 ## Installation
 
 ```sh
-npm install finnish-ssn --save
+npm install finnish-pic --save
 ```
 
 ## Usage
@@ -16,31 +16,30 @@ npm install finnish-ssn --save
 ES6 / TypeScript
 
 ```js
-import { FinnishSSN } from 'finnish-ssn'
-const isValid = FinnishSSN.validate('010101-100X')
+import { FinnishPIC } from 'finnish-pic'
+const isValid = FinnishPIC.validate('010101-100X')
 console.log(isValid) //  Yields true
 ```
 
 ## Examples
 
-Validate an SSN
+Validate a PIC
 
 ```js
-//  This is valid SSN
-console.log('valid ssn returns ' + FinnishSSN.validate('290296-7808'))
-//  'valid ssn returns true'
+//  This is a valid PIC
+console.log('A valid pic returns ' + FinnishPIC.validate('290296-7808'))
+//  'valid pic returns true'
 
-//  This is invalid SSN
-console.log('invalid ssn returns ' + FinnishSSN.validate('010198-1000'))
-//  'invalid ssn returns false'
+//  This is an invalid PIC
+console.log('An invalid pic returns ' + FinnishPIC.validate('010198-1000'))
+//  'invalid pic returns false'
 ```
 
-Parse SSN
+Parse PIC
 
 ```js
-//  This is valid SSN
-var parsedSsn =  FinnishSSN.parse('290296-7808')
-//  This is invalid SSN
+//  This is a valid PIC
+var parsedSsn =  FinnishPIC.parse('290296-7808')
 console.log(parsedSsn)
 {
   valid: true,
@@ -50,22 +49,22 @@ console.log(parsedSsn)
 }
 ```
 
-Create an SSN for person that is 20 years old.
+Create a PIC for person that is 20 years old.
 
 ```js
-console.log('SSN for person that is 20 years old ' + FinnishSSN.createWithAge(20))
-//  SSN for person that is 20 years old 010195-XXXX
+console.log('PIC for person that is 20 years old ' + FinnishPIC.createWithAge(20))
+//  PIC for person that is 20 years old 010195-XXXX
 ```
 
 ## Functions
 
-### #validate(ssn)
+### #validate(pic)
 
-- Validates parameter given SSN. Returns true if SSN is valid, otherwise false
+- Validates a given PIC. Returns true if a PIC is valid, otherwise false
 
-### #parse(ssn)
+### #parse(pic)
 
-- Parses parameter given SSN. Returns object `{valid: boolean, sex: "male|female", ageInYears: Number, dateOfBirth: Date }`
+- Parses a given PIC. Returns object `{valid: boolean, sex: "male|female", ageInYears: Number, dateOfBirth: Date }`
 
 ```js
 {
@@ -90,7 +89,7 @@ console.log('SSN for person that is 20 years old ' + FinnishSSN.createWithAge(20
 
 ### #createWithAge(age)
 
-- Creates a valid SSN using the given age (Integer). Generates randomly male and female SSN'n.
+- Creates a valid PIC using the given age (Integer). Generates randomly male and female PICs.
 
 ## Building
 
