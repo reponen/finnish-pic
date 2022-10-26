@@ -66,12 +66,12 @@ export class FinnishPic {
   }
 
   /**
-   * Creates a valid PIC using the given age (Integer). Creates randomly male and female PICs.
+   * Generates a valid PIC using the given age (Integer). Creates randomly male and female PICs.
    * In case an invalid age is given, throws an exception.
    *
    * @param age as Integer. Min valid age is 1, max valid age is 200
    */
-  public static createWithAge(age: number): string {
+  public static generateWithAge(age: number): string {
     if (age < MIN_AGE || age > MAX_AGE) {
       throw new Error(`Given age (${age}) is not between sensible age range of ${MIN_AGE} and ${MAX_AGE}`)
     }

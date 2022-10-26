@@ -8,23 +8,23 @@ describe('FinnishPIC', () => {
     it('Should fail when given empty String', () => {
       expect(FinnishPic.validate('')).to.equal(false)
     })
-    it('Should fail when given birthdate with month out of bounds', () => {
+    it('Should fail when given a birthdate with month out of bounds', () => {
       expect(FinnishPic.validate('301398-1233')).to.equal(false)
     })
 
-    it('Should fail when given birthdate with date out of bounds in January', () => {
+    it('Should fail when given a birthdate with date out of bounds in January', () => {
       expect(FinnishPic.validate('320198-123P')).to.equal(false)
     })
 
-    it('Should fail when given birthdate with date out of bounds in February, non leap year', () => {
+    it('Should fail when given a birthdate with date out of bounds in February, non leap year', () => {
       expect(FinnishPic.validate('290299-123U')).to.equal(false)
     })
 
-    it('Should fail when given birth date with date out of bounds in February, a leap year', () => {
+    it('Should fail when given a birthdate with date out of bounds in February, a leap year', () => {
       expect(FinnishPic.validate('300204-123Y')).to.equal(false)
     })
 
-    it('Should fail when given birth date with alphabets', () => {
+    it('Should fail when given a birthdate with alphabets', () => {
       expect(FinnishPic.validate('0101AA-123A')).to.equal(false)
     })
 
@@ -36,57 +36,57 @@ describe('FinnishPIC', () => {
       })
     })
 
-    it('Should fail when given too long date', () => {
+    it('Should fail when given a too long date', () => {
       expect(FinnishPic.validate('01011995+433X')).to.equal(false)
     })
 
-    it('Should fail when given too short date', () => {
+    it('Should fail when given a too short date', () => {
       expect(FinnishPic.validate('01015+433X')).to.equal(false)
     })
 
-    it('Should fail when given too long checksum part', () => {
+    it('Should fail when given a too long checksum part', () => {
       expect(FinnishPic.validate('010195+4433X')).to.equal(false)
     })
 
-    it('Should fail when given too long checksum part', () => {
+    it('Should fail when given a too short checksum part', () => {
       expect(FinnishPic.validate('010195+33X')).to.equal(false)
     })
 
-    it('Should pass when given valid FinnishPIC from 19th century', () => {
+    it('Should pass when given a valid PIC from 19th century', () => {
       expect(FinnishPic.validate('010195+433X')).to.equal(true)
     })
 
-    it('Should pass when given valid FinnishPIC from 20th century', () => {
+    it('Should pass when given a valid PIC from 20th century', () => {
       expect(FinnishPic.validate('010197+100P')).to.equal(true)
     })
 
-    it('Should pass when given valid FinnishPIC from 21st century', () => {
+    it('Should pass when given a valid PIC from 21st century', () => {
       expect(FinnishPic.validate('010114A173M')).to.equal(true)
     })
 
-    it('Should pass when given valid FinnishPIC with leap year, divisible only by 4', () => {
+    it('Should pass when given a valid PIC with leap year, divisible only by 4', () => {
       expect(FinnishPic.validate('290296-7808')).to.equal(true)
     })
 
-    it('Should fail when given valid FinnishPIC with leap year, divisible by 100 and not by 400', () => {
+    it('Should fail when given a valid PIC with leap year, divisible by 100 and not by 400', () => {
       expect(FinnishPic.validate('290200-101P')).to.equal(false)
     })
 
-    it('Should fail when given PIC longer than 11 chars, bogus in the end', () => {
+    it('Should fail when given a PIC longer than 11 chars, bogus in the end', () => {
       expect(FinnishPic.validate('010114A173M ')).to.equal(false)
     })
 
-    it('Should fail when given PIC longer than 11 chars, bogus in the beginning', () => {
+    it('Should fail when given a PIC longer than 11 chars, bogus in the beginning', () => {
       expect(FinnishPic.validate(' 010114A173M')).to.equal(false)
     })
 
-    it('Should pass when given valid FinnishPIC with leap year, divisible by 100 and by 400', () => {
+    it('Should pass when given a valid PIC with leap year, divisible by 100 and by 400', () => {
       expect(FinnishPic.validate('290200A248A')).to.equal(true)
     })
   })
 
   describe('#parse', () => {
-    it('Should parse valid, male, born on leap year day 29.2.2000', () => {
+    it('Should parse a valid PIC: male, born on leap year day 29.2.2000', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishPic.parse('290200A717E')
       expect(parsed.valid).to.equal(true)
@@ -97,7 +97,7 @@ describe('FinnishPIC', () => {
       expect(parsed.ageInYears).to.equal(14)
     })
 
-    it('Should parse valid, female, born on 01.01.1999', () => {
+    it('Should parse a valid PIC: female, born on 01.01.1999', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishPic.parse('010199-8148')
       expect(parsed.valid).to.equal(true)
@@ -108,7 +108,7 @@ describe('FinnishPIC', () => {
       expect(parsed.ageInYears).to.equal(16)
     })
 
-    it('Should parse valid, female, born on 31.12.2010', () => {
+    it('Should parse a valid PIC: female, born on 31.12.2010', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishPic.parse('311210A540N')
       expect(parsed.valid).to.equal(true)
@@ -119,7 +119,7 @@ describe('FinnishPIC', () => {
       expect(parsed.ageInYears).to.equal(4)
     })
 
-    it('Should parse valid, male, born on 2.2.1888, having a birthday today', () => {
+    it('Should parse a valid PIC: male, born on 2.2.1888, having a birthday today', () => {
       MockDate.set('2/2/2015')
       const parsed = FinnishPic.parse('020288+9818')
       expect(parsed.valid).to.equal(true)
@@ -130,7 +130,7 @@ describe('FinnishPIC', () => {
       expect(parsed.ageInYears).to.equal(127)
     })
 
-    it('Should parse valid, female 0 years, born on 31.12.2015', () => {
+    it('Should parse a valid PIC: female 0 years, born on 31.12.2015', () => {
       MockDate.set('1/1/2016')
       const parsed = FinnishPic.parse('311215A000J')
       expect(parsed.valid).to.equal(true)
@@ -159,93 +159,93 @@ describe('FinnishPIC', () => {
       expect(parsed.ageInYears).to.equal(21)
     })
 
-    it('Should detect invalid PIC, lowercase checksum char', () => {
+    it('Should detect an invalid PIC, lowercase checksum char', () => {
       MockDate.set('2/2/2015')
       expect(() => {
         FinnishPic.parse('311210A540n')
       }).to.throw(/Not valid PIC format/)
     })
 
-    it('Should detect invalid PIC with invalid checksum born 17.8.1995', () => {
+    it('Should detect an invalid PIC with invalid checksum born 17.8.1995', () => {
       MockDate.set('12/12/2015')
       const parsed = FinnishPic.parse('150295-1212')
       expect(parsed.valid).to.equal(false)
     })
 
-    it('Should detect invalid PIC with month out of bounds', () => {
+    it('Should detect an invalid PIC with month out of bounds', () => {
       expect(() => {
         FinnishPic.parse('301398-1233')
       }).to.throw(/Not valid PIC/)
     })
 
-    it('Should detect invalid PIC with day of month out of bounds', () => {
+    it('Should detect an invalid PIC with day of month out of bounds', () => {
       expect(() => {
         FinnishPic.parse('330198-123X')
       }).to.throw(/Not valid PIC/)
     })
   })
 
-  describe('#createWithAge', () => {
+  describe('#generateWithAge', () => {
     it('Should not accept zero age', () => {
       expect(() => {
-        FinnishPic.createWithAge(0)
+        FinnishPic.generateWithAge(0)
       }).to.throw(/not between sensible age range/)
     })
 
     it('Should not accept age >= 200', () => {
       expect(() => {
-        FinnishPic.createWithAge(201)
+        FinnishPic.generateWithAge(201)
       }).to.throw(/not between sensible age range/)
     })
 
-    it('Should create valid FinnishPIC for 21st century', () => {
+    it('Should generate a valid PIC with birth year in the 21st century', () => {
       MockDate.set('2/2/2015')
       const age = 3
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}1[12]A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}1[12]A[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should create valid FinnishPIC for 20th century', () => {
+    it('Should generate a valid PIC with birth year in the 20th century', () => {
       MockDate.set('2/2/2015')
       const age = 20
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}9[45]-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}9[45]-[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should create valid FinnishPIC for 19th century', () => {
+    it('Should generate a valid PIC with birth year in the 19th century', () => {
       MockDate.set('2/2/2015')
       const age = 125
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}[(89)|(90)]\\+[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}[(89)|(90)]\\+[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should createWithAge valid FinnishPIC for year 2000', () => {
+    it('Should generate a valid PIC with birth year 2000', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 2000
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}00A[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}00A[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should create valid FinnishPIC for year 1999', () => {
+    it('Should generate a valid PIC with birth year 1999', () => {
       MockDate.set('12/31/2015')
       const age = new Date().getFullYear() - 1999
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}99-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}99-[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should create valid FinnishPIC for year 1990', () => {
+    it('Should generate a valid PIC with birth year 1990', () => {
       MockDate.set('12/31/2015')
       const age = 25
-      expect(FinnishPic.createWithAge(age)).to.match(new RegExp('\\d{4}90-[\\d]{3}[A-Z0-9]'))
+      expect(FinnishPic.generateWithAge(age)).to.match(new RegExp('\\d{4}90-[\\d]{3}[A-Z0-9]'))
     })
 
-    it('Should create random birth dates', () => {
+    it('Should generate random birth dates', () => {
       const getDayAndMonth = (pic: string) => pic.substr(0, 4)
 
       const picsToCompare = 10,
         age = 50
 
-      const referenceBirthDate = getDayAndMonth(FinnishPic.createWithAge(age))
+      const referenceBirthDate = getDayAndMonth(FinnishPic.generateWithAge(age))
       let i = 0,
         differenceFound = false
 
       do {
-        const birthDate = getDayAndMonth(FinnishPic.createWithAge(age))
+        const birthDate = getDayAndMonth(FinnishPic.generateWithAge(age))
         differenceFound = referenceBirthDate !== birthDate
         i++
       } while (!differenceFound && i < picsToCompare)
@@ -253,7 +253,7 @@ describe('FinnishPIC', () => {
       expect(differenceFound).to.be.true
     })
 
-    it('Should create valid birth dates', () => {
+    it('Should generate valid birth dates', () => {
       const centuryMap: Map<string, number> = new Map()
       centuryMap.set('A', 2000)
       centuryMap.set('-', 1900)
@@ -263,7 +263,7 @@ describe('FinnishPIC', () => {
         age = 40
 
       for (let i = 0; i < picsToGenerate; i++) {
-        const pic = FinnishPic.createWithAge(age)
+        const pic = FinnishPic.generateWithAge(age)
 
         const month = parseInt(pic.substr(2, 2), 10)
         expect(month).to.satisfy((m: number) => m >= 1 && m <= 12, 'Month not between 1 and 12')
@@ -282,12 +282,12 @@ describe('FinnishPIC', () => {
       }
     })
 
-    it('Should create random birth dates with correct (i.e. given) age', () => {
+    it('Should generate random birth dates with correct (i.e. given) age', () => {
       const age = 25,
         picsToGenerate = 100
 
       for (let i = 0; i < picsToGenerate; i++) {
-        const pic = FinnishPic.createWithAge(age)
+        const pic = FinnishPic.generateWithAge(age)
         const generatedAge = FinnishPic.parse(pic).ageInYears
         expect(generatedAge).to.equal(age)
       }
