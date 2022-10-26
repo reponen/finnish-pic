@@ -29,7 +29,7 @@ describe('FinnishPIC', () => {
     })
 
     it('Should fail when given invalid separator chars', () => {
-      const invalidSeparatorChars = 'bcdefghijlmnopqrtsuv1234567890'.split('')
+      const invalidSeparatorChars = 'ghijlmnopqrts1234567890'.split('')
       invalidSeparatorChars.forEach(invalidChar => {
         expect(FinnishPic.validate('010195' + invalidChar + '433X')).to.equal(false)
         expect(FinnishPic.validate('010195' + invalidChar.toUpperCase() + '433X')).to.equal(false)
@@ -182,6 +182,34 @@ describe('FinnishPIC', () => {
       expect(() => {
         FinnishPic.parse('330198-123X')
       }).to.throw(/Not valid PIC/)
+    })
+
+    it('Should accept new separators', () => {
+      const validPICs = [
+        '010594Y9021',
+        '020594X903P',
+        '020594X902N',
+        '030594W903B',
+        '030694W9024',
+        '040594V9030',
+        '040594V902Y',
+        '050594U903M',
+        '050594U902L',
+        '010516B903X',
+        '010516B902W',
+        '020516C903K',
+        '020516C902J',
+        '030516D9037',
+        '030516D9026',
+        '010501E9032',
+        '020502E902X',
+        '020503F9037',
+        '020504A902E',
+        '020504B904H',
+      ]
+      validPICs.forEach((pic) => {
+        expect(FinnishPic.validate(pic)).is.true
+      })
     })
   })
 
